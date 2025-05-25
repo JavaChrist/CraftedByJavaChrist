@@ -1,46 +1,118 @@
-# Getting Started with Create React App
+# Projet : CraftedByJavaChrist
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🔧 Objectif
+Ce projet est un portfolio personnel pour présenter mes projets en tant que développeur web & mobile freelance. Il doit refléter mon expertise technique avec un design sobre et professionnel (style Vercel). Le site est déployé sur Vercel.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## ✅ Fonctionnalités déjà en place
+- Landing page simple avec React + TypeScript + TailwindCSS
+- Présentation de deux projets : Code Craft Studio et SmartBoard
+- Section À propos et contact
+- Responsive de base OK
+- Déploiement opérationnel sur https://crafted-by-java-christ.vercel.app/
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🎯 Objectifs des prochaines étapes
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 1. 🔄 Passer à une architecture multi-pages
+Utiliser **React Router** pour séparer :
+- `/` → Accueil avec présentation rapide
+- `/projects` → Tous les projets affichés dans des `ProjectCard`
+- `/about` → Parcours, stack, certifications
+- `/contact` → Email, LinkedIn, etc.
 
-### `npm test`
+### 2. 📁 Organiser les projets via un fichier `projects.ts`
+Créer un fichier `src/data/projects.ts` contenant les projets ci-dessous, chacun avec :
+```ts
+export interface Project {
+  name: string;
+  slug: string;
+  description: string;
+  stack: string[];
+  linkDemo?: string;
+  linkCode?: string;
+  image?: string;
+  status?: 'Terminé' | 'En cours';
+}
+Liste des projets à ajouter :
+Code Craft Studio
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+IDE web complet avec file manager, preview live, zip & GitHub sync
 
-### `npm run build`
+Stack : React, CodeMirror, LocalStorage, GitHub API
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+SmartBoard
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Dashboard d’apps et raccourcis pour poste de travail (PC & cloud sync)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Stack : Flutter, Firebase, Auth, Cloud Firestore
 
-### `npm run eject`
+Unitep
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+App Next.js pro utilisée chez EDF, stockage fichiers via NAS
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Stack : Next.js, Firebase Auth, API interne sécurisée
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+WebMail
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Client mail personnel avec calendrier & carnet de contacts
 
-## Learn More
+Stack : React, Firebase, emailJS, Fullcalendar
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+TimeMate
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Suivi du temps passé par affaire/technicien (app de gestion terrain)
+
+Stack : React, Firebase, export CSV
+
+SaaS de Facturation
+
+Plateforme avec abonnements Stripe, factures PDF, tableau de bord client
+
+Stack : React, Firebase, Stripe, React Hook Form
+
+Application Plombier
+
+App pour gestion de planning, relance de visites annuelles, fiche client
+
+Stack : React, Firebase, système de relances automatiques
+
+3. 📦 Composants à créer/modifier
+✅ ProjectCard.tsx
+Un composant réutilisable pour afficher les projets dynamiquement depuis projects.ts.
+
+✅ Navbar.tsx
+Navigation sticky avec ancres ou routing :
+
+Accueil
+
+Projets
+
+À propos
+
+Contact
+
+✅ Footer.tsx
+Simple, avec lien GitHub, LinkedIn, copyright.
+
+🧠 Instruction à l’IA de Cursor
+Merci de :
+
+Structurer le projet en routing React (react-router-dom)
+
+Générer les fichiers de page Home.tsx, Projects.tsx, About.tsx, Contact.tsx
+
+Afficher dynamiquement les projets dans Projects.tsx via ProjectCard et projects.ts
+
+Styliser les composants avec Tailwind en restant sobre et lisible
+
+Ajouter les données des projets listés dans ce script
+
+Bonus (optionnel)
+Dark mode toggle
+
+Favicon + image par projet
+
+Animation légère sur les cards au hover (framer-motion)
