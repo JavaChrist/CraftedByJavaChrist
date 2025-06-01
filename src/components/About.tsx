@@ -11,9 +11,14 @@ const About: React.FC = () => {
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="w-80 h-80 mx-auto bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-                <div className="w-72 h-72 bg-white rounded-full flex items-center justify-center">
-                  <span className="text-6xl">👨‍💻</span>
+              <div className="w-80 h-80 mx-auto bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center p-2">
+                <div className="w-72 h-72 bg-white rounded-full overflow-hidden flex items-center justify-center">
+                  <img
+                    src="/images/Christian.png"
+                    alt="Christian - Développeur Full Stack"
+                    className="w-full h-full object-cover rounded-full scale-130"
+                    style={{ objectPosition: 'center top' }}
+                  />
                 </div>
               </div>
             </div>
@@ -34,12 +39,12 @@ const About: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4 mt-8">
                 <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <div className="text-2xl font-bold text-blue-600">3+</div>
+                  <div className="text-2xl font-bold text-blue-600">5+</div>
                   <div className="text-gray-600">Années d'expérience</div>
                 </div>
                 <div className="text-center p-4 bg-purple-50 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600">20+</div>
-                  <div className="text-gray-600">Projets réalisés</div>
+                  <div className="text-2xl font-bold text-purple-600">90+</div>
+                  <div className="text-gray-600">Projets & outils</div>
                 </div>
               </div>
             </div>

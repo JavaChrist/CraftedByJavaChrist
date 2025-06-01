@@ -24,10 +24,10 @@ const About: React.FC = () => {
       description: 'Développement d\'une application Next.js professionnelle pour la gestion de fichiers via NAS avec authentification Firebase.',
     },
     {
-      period: '2021 - 2022',
+      period: '2019 - 2022',
       title: 'Développeur Full Stack',
-      company: 'Projets personnels',
-      description: 'Création de plusieurs applications web incluant un IDE en ligne, un client webmail et des outils de gestion.',
+      company: 'Projets personnels & Formation',
+      description: 'Début de ma carrière en développement avec la création de nombreuses applications web, apprentissage des technologies modernes et développement de plus de 90 projets et outils.',
     },
   ];
 
@@ -45,7 +45,7 @@ const About: React.FC = () => {
             À propos de moi
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Développeur passionné avec plus de 3 ans d'expérience dans la création
+            Développeur passionné avec plus de 5 ans d'expérience dans la création
             d'applications web et mobiles modernes et performantes.
           </p>
         </motion.div>
@@ -82,8 +82,15 @@ const About: React.FC = () => {
           </div>
           <div className="bg-gray-50 rounded-2xl p-8">
             <div className="text-center">
-              <div className="w-32 h-32 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center">
-                <span className="text-4xl">👨‍💻</span>
+              <div className="w-32 h-32 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center p-1">
+                <div className="w-full h-full bg-white rounded-full overflow-hidden flex items-center justify-center">
+                  <img
+                    src="/images/Christian.png"
+                    alt="Christian - Développeur Full Stack"
+                    className="w-full h-full object-cover rounded-full scale-130"
+                    style={{ objectPosition: 'center top' }}
+                  />
+                </div>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">JavaChrist</h3>
               <p className="text-gray-600">Développeur Full Stack</p>
