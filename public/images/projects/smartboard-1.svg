@@ -1,0 +1,50 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f0f2f5"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="400" height="60" fill="#ffffff" stroke="#e4e6ea"/>
+  <text x="20" y="35" fill="#1c1e21" font-family="Arial" font-size="18" font-weight="bold">📱 SmartBoard</text>
+  <circle cx="350" cy="30" r="15" fill="#42b883"/>
+  <text x="350" y="35" text-anchor="middle" fill="white" font-family="Arial" font-size="12">👤</text>
+  
+  <!-- Dashboard grid -->
+  <g transform="translate(20, 80)">
+    <!-- App tiles -->
+    <rect x="0" y="0" width="80" height="80" fill="#4267b2" rx="12"/>
+    <text x="40" y="35" text-anchor="middle" fill="white" font-family="Arial" font-size="24">📘</text>
+    <text x="40" y="55" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Facebook</text>
+    
+    <rect x="100" y="0" width="80" height="80" fill="#1da1f2" rx="12"/>
+    <text x="140" y="35" text-anchor="middle" fill="white" font-family="Arial" font-size="24">🐦</text>
+    <text x="140" y="55" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Twitter</text>
+    
+    <rect x="200" y="0" width="80" height="80" fill="#ff6b6b" rx="12"/>
+    <text x="240" y="35" text-anchor="middle" fill="white" font-family="Arial" font-size="24">📧</text>
+    <text x="240" y="55" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Gmail</text>
+    
+    <rect x="300" y="0" width="80" height="80" fill="#4ecdc4" rx="12"/>
+    <text x="340" y="35" text-anchor="middle" fill="white" font-family="Arial" font-size="24">💼</text>
+    <text x="340" y="55" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Slack</text>
+    
+    <!-- Second row -->
+    <rect x="0" y="100" width="80" height="80" fill="#ff9f43" rx="12"/>
+    <text x="40" y="135" text-anchor="middle" fill="white" font-family="Arial" font-size="24">📊</text>
+    <text x="40" y="155" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Analytics</text>
+    
+    <rect x="100" y="100" width="80" height="80" fill="#a55eea" rx="12"/>
+    <text x="140" y="135" text-anchor="middle" fill="white" font-family="Arial" font-size="24">🎨</text>
+    <text x="140" y="155" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Figma</text>
+    
+    <rect x="200" y="100" width="80" height="80" fill="#26de81" rx="12"/>
+    <text x="240" y="135" text-anchor="middle" fill="white" font-family="Arial" font-size="24">💰</text>
+    <text x="240" y="155" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Finance</text>
+    
+    <rect x="300" y="100" width="80" height="80" fill="#fd79a8" rx="12"/>
+    <text x="340" y="135" text-anchor="middle" fill="white" font-family="Arial" font-size="24">⚙️</text>
+    <text x="340" y="155" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Settings</text>
+  </g>
+  
+  <!-- Sync indicator -->
+  <circle cx="370" cy="270" r="8" fill="#26de81"/>
+  <text x="350" y="285" fill="#26de81" font-family="Arial" font-size="8">Cloud Sync</text>
+</svg> 
