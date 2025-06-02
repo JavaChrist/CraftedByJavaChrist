@@ -1,7 +1,6 @@
-import { Resend } from 'resend';
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+const { Resend } = require('resend');
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = async function handler(req: any, res: any) {
   console.log('=== DÉBUT API CONTACT ===');
   console.log('Méthode:', req.method);
   console.log('Body reçu:', req.body);
@@ -116,4 +115,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       details: String(error)
     });
   }
-} 
+}; 
