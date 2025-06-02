@@ -1,104 +1,88 @@
 const { Resend } = require('resend');
 
 module.exports = async function handler(req: any, res: any) {
-  console.log('=== DÉBUT API CONTACT ===');
-  console.log('Méthode:', req.method);
-  console.log('Body reçu:', req.body);
-
   // Permettre seulement les requêtes POST
   if (req.method !== 'POST') {
-    console.log('❌ Méthode non autorisée:', req.method);
     return res.status(405).json({ error: 'Méthode non autorisée' });
   }
 
-  // Vérification des variables d'environnement
-  console.log('Variables d\'environnement:');
-  console.log('- RESEND_API_KEY existe:', !!process.env.RESEND_API_KEY);
-  console.log('- RESEND_API_KEY début:', process.env.RESEND_API_KEY?.substring(0, 10) + '...');
-  console.log('- RESEND_FROM_EMAIL:', process.env.RESEND_FROM_EMAIL);
-  console.log('- RESEND_TO_EMAIL:', process.env.RESEND_TO_EMAIL);
-
+  // Vérification de la clé API
   if (!process.env.RESEND_API_KEY) {
     console.error('❌ RESEND_API_KEY non configurée');
-    return res.status(500).json({ error: 'Configuration serveur manquante - API Key' });
+    return res.status(500).json({ error: 'Configuration serveur manquante' });
   }
 
   // Validation des données
   const { name, email, subject, message } = req.body;
-  console.log('Données extraites:', { name, email, subject, messageLength: message?.length });
 
   if (!name || !email || !subject || !message) {
-    console.log('❌ Champs manquants');
     return res.status(400).json({ error: 'Tous les champs sont requis' });
   }
 
   // Validation email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    console.log('❌ Email invalide:', email);
     return res.status(400).json({ error: 'Email invalide' });
   }
 
+  // Protection anti-spam
+  if (message.length > 5000) {
+    return res.status(400).json({ error: 'Message trop long (max 5000 caractères)' });
+  }
+
   try {
-    console.log('🚀 Initialisation de Resend...');
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@javachrist.fr';
     const toEmail = process.env.RESEND_TO_EMAIL || 'contact@javachrist.fr';
 
-    console.log('📧 Configuration email:');
-    console.log('- From:', fromEmail);
-    console.log('- To:', toEmail);
-    console.log('- Subject:', `[Portfolio] ${subject}`);
-
-    console.log('📤 Envoi de l\'email via Resend...');
-
-    const emailData = {
+    const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: [toEmail],
       replyTo: email,
       subject: `[Portfolio] ${subject}`,
       html: `
-        <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif;">
-          <h2>Nouveau message depuis votre portfolio</h2>
-          <p><strong>Nom:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Sujet:</strong> ${subject}</p>
-          <div style="border: 1px solid #ccc; padding: 15px; margin: 15px 0;">
-            <h3>Message:</h3>
-            <p>${message}</p>
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 24px;">Nouveau message depuis votre portfolio</h1>
           </div>
-          <hr>
-          <p style="font-size: 12px; color: #666;">
-            Envoyé le ${new Date().toLocaleString('fr-FR')}
-          </p>
+          
+          <div style="padding: 30px;">
+            <div style="background-color: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; border-left: 4px solid #3b82f6;">
+              <h2 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Informations du contact</h2>
+              <p style="margin: 8px 0; color: #374151;"><strong>Nom :</strong> ${name}</p>
+              <p style="margin: 8px 0; color: #374151;"><strong>Email :</strong> <a href="mailto:${email}" style="color: #3b82f6; text-decoration: none;">${email}</a></p>
+              <p style="margin: 8px 0; color: #374151;"><strong>Sujet :</strong> ${subject}</p>
+            </div>
+            
+            <div style="background-color: #ffffff; padding: 25px; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 25px;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 16px; border-bottom: 2px solid #f3f4f6; padding-bottom: 10px;">Message :</h3>
+              <div style="line-height: 1.6; color: #374151; white-space: pre-wrap;">${message}</div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); padding: 20px; border-radius: 12px; text-align: center;">
+              <p style="margin: 0; font-size: 14px; color: #1e40af;">
+                <strong>💡 Pour répondre :</strong> Cliquez sur "Répondre" ou utilisez directement l'email ${email}
+              </p>
+            </div>
+          </div>
+          
+          <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
+            <p style="margin: 0; font-size: 12px; color: #6b7280;">
+              Ce message a été envoyé via le formulaire de contact de votre portfolio<br>
+              ${new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })}
+            </p>
+          </div>
         </div>
       `,
-    };
-
-    console.log('📋 Données email préparées:', {
-      from: emailData.from,
-      to: emailData.to,
-      subject: emailData.subject,
-      replyTo: emailData.replyTo
     });
 
-    const { data, error } = await resend.emails.send(emailData);
-
     if (error) {
-      console.error('❌ Erreur Resend:', error);
-      console.error('❌ Type d\'erreur:', typeof error);
-      console.error('❌ Erreur stringifiée:', JSON.stringify(error, null, 2));
-      return res.status(500).json({
-        error: 'Erreur lors de l\'envoi de l\'email',
-        resendError: error
-      });
+      console.error('Erreur Resend:', error);
+      return res.status(500).json({ error: 'Erreur lors de l\'envoi de l\'email' });
     }
 
-    console.log('✅ Email envoyé avec succès!');
-    console.log('✅ ID email:', data?.id);
-    console.log('✅ Données complètes:', data);
-
+    console.log('✅ Email envoyé avec succès:', data?.id);
     return res.status(200).json({
       success: true,
       message: 'Email envoyé avec succès',
@@ -106,13 +90,7 @@ module.exports = async function handler(req: any, res: any) {
     });
 
   } catch (error) {
-    console.error('💥 Erreur catch globale:', error);
-    console.error('💥 Type d\'erreur:', typeof error);
-    console.error('💥 Stack trace:', error instanceof Error ? error.stack : 'Pas de stack trace');
-
-    return res.status(500).json({
-      error: 'Erreur interne du serveur',
-      details: String(error)
-    });
+    console.error('Erreur serveur:', error);
+    return res.status(500).json({ error: 'Erreur interne du serveur' });
   }
 }; 

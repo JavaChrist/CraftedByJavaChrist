@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ProjectCard from '../components/ui/ProjectCard';
 import { projects } from '../data/projects';
@@ -93,12 +94,12 @@ const Projects: React.FC = () => {
               je serais ravi de discuter de votre projet et de vous accompagner dans sa réalisation.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="mailto:contact@javachrist.dev"
+              <Link
+                to="/contact"
                 className="bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium"
               >
                 Discutons de votre projet
-              </a>
+              </Link>
               <a
                 href="https://github.com/javachrist"
                 target="_blank"
