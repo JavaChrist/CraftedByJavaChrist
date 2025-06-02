@@ -36,7 +36,11 @@ export const projects: Project[] = [
     image: '📱',
     images: [
       '/images/projects/smartboard-1.svg',
-      '/images/projects/smartboard-2.svg'
+      '/images/projects/smartboard-2.svg',
+      // À ajouter : captures d'écran de l'app en fonctionnement
+      // '/images/projects/smartboard-desktop.webp',
+      // '/images/projects/smartboard-mobile.webp',
+      // '/images/projects/smartboard-settings.webp'
     ],
     status: 'En cours'
   },
@@ -81,7 +85,12 @@ export const projects: Project[] = [
     linkCode: 'https://github.com/javachrist/timemate',
     image: '⏱️',
     images: [
-      '/images/projects/timemate-1.svg'
+      '/images/projects/timemate-1.svg',
+      // À ajouter : captures d'écran de l'app
+      // '/images/projects/timemate-dashboard.webp',
+      // '/images/projects/timemate-tracking.webp',
+      // '/images/projects/timemate-reports.webp',
+      // '/images/projects/timemate-mobile.webp'
     ],
     status: 'En cours'
   },
