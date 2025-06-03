@@ -172,19 +172,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
                   loading="lazy"
                 />
 
-                {/* Effet de surbrillance amélioré pour l'image sélectionnée */}
-                {index === selectedIndex && (
-                  <motion.div
-                    className={`absolute inset-0 rounded-lg ${fanMode
-                        ? 'bg-gradient-to-r from-blue-500/30 to-purple-500/30'
-                        : 'bg-blue-500/20'
-                      }`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-
                 {/* Indicateur d'image sélectionnée */}
                 {index === selectedIndex && (
                   <motion.div
@@ -234,8 +221,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
                 setSelectedIndex(index);
               }}
               className={`w-3 h-3 rounded-full transition-all transform ${index === selectedIndex
-                  ? 'bg-white scale-125 ring-2 ring-blue-400'
-                  : 'bg-white/60 hover:bg-white/90 hover:scale-110'
+                ? 'bg-white scale-125 ring-2 ring-blue-400'
+                : 'bg-white/60 hover:bg-white/90 hover:scale-110'
                 }`}
               aria-label={`Aller à l'image ${index + 1}`}
             />

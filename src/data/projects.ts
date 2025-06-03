@@ -142,11 +142,11 @@ export const projects: Project[] = [
     linkCode: 'https://github.com/JavaChrist/New-JavaChrist',
     image: '🔧',
     images: [
-      '/images/projects/sitejavaChrist.webp',
+      '/images/projects/siteJavaChrist.webp',
       '/images/projects/sitejavaChrist-blog.webp',
-      '/images/projects/sitejavaChrist-faq.webp',
+      '/images/projects/siteJavaChrist-faq.webp',
       '/images/projects/sitejavaChrist-forum.webp',
-      '/images/projects/sitejavaChrist-services.webp',
+      '/images/projects/siteJavaChrist-services.webp',
       '/images/projects/sitejavaChrist-login.webp'
     ],
     status: 'Terminé'

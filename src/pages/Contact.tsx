@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const Contact: React.FC = () => {
@@ -87,17 +87,33 @@ const Contact: React.FC = () => {
     },
   ];
 
+  // Gérer le scroll automatique vers l'ancre
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 100);
+      }
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
+      <section id="contact-form" className="max-w-6xl mx-auto px-6 py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 id="contactez-moi" className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Contactez-moi
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">

@@ -57,12 +57,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, projectName, onIm
           />
         </AnimatePresence>
 
-        {/* Overlay d'indication de clic */}
+        {/* Indication de clic sans overlay */}
         {onImageClick && (
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
-            <div className="bg-white/90 text-gray-800 px-3 py-1 rounded-full text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-              🔍 Voir en grand
-            </div>
+          <div className="absolute bottom-2 right-2 bg-white/90 text-gray-800 px-3 py-1 rounded-full text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            🔍 Voir en grand
           </div>
         )}
       </div>

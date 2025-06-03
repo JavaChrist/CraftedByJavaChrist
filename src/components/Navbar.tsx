@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
     { name: 'Accueil', path: '/' },
     { name: 'Projets', path: '/projects' },
     { name: 'À propos', path: '/about' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Contact', path: '/contact#contactez-moi' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -30,8 +30,8 @@ const Navbar: React.FC = () => {
                 key={item.name}
                 to={item.path}
                 className={`text-sm font-medium transition-colors duration-200 ${isActive(item.path)
-                    ? 'text-black'
-                    : 'text-gray-600 hover:text-gray-900'
+                  ? 'text-black'
+                  : 'text-gray-600 hover:text-gray-900'
                   }`}
               >
                 {item.name}
@@ -59,8 +59,8 @@ const Navbar: React.FC = () => {
                 key={item.name}
                 to={item.path}
                 className={`block py-2 text-sm font-medium transition-colors ${isActive(item.path)
-                    ? 'text-black'
-                    : 'text-gray-600 hover:text-gray-900'
+                  ? 'text-black'
+                  : 'text-gray-600 hover:text-gray-900'
                   }`}
                 onClick={() => setIsMenuOpen(false)}
               >

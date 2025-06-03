@@ -44,7 +44,7 @@ const Home: React.FC = () => {
               Voir mes projets
             </Link>
             <Link
-              to="/contact"
+              to="/contact#contactez-moi"
               className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium"
             >
               Me contacter
@@ -117,7 +117,7 @@ const Home: React.FC = () => {
             qui répond parfaitement à vos attentes.
           </p>
           <Link
-            to="/contact"
+            to="/contact#contactez-moi"
             className="inline-block bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium"
           >
             Démarrer un projet
