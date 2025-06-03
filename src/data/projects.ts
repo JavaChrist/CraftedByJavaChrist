@@ -37,16 +37,12 @@ export const projects: Project[] = [
     images: [
       '/images/projects/smartboard-1.svg',
       '/images/projects/smartboard-2.svg',
-      // À ajouter : captures d'écran de l'app en fonctionnement
-      // '/images/projects/smartboard-desktop.webp',
-      // '/images/projects/smartboard-mobile.webp',
-      // '/images/projects/smartboard-settings.webp'
     ],
     status: 'En cours'
   },
   {
-    name: 'SyncPro',
-    slug: 'syncpro',
+    name: 'Sync-app',
+    slug: 'sync-pro',
     description: 'App Next.js pro utilisée chez EDF, stockage fichiers via NAS',
     stack: ['Next.js', 'Firebase Auth', 'API interne sécurisée'],
     linkDemo: 'https://sync-pro.javachrist.eu/login',
@@ -86,11 +82,6 @@ export const projects: Project[] = [
     image: '⏱️',
     images: [
       '/images/projects/timemate-1.svg',
-      // À ajouter : captures d'écran de l'app
-      // '/images/projects/timemate-dashboard.webp',
-      // '/images/projects/timemate-tracking.webp',
-      // '/images/projects/timemate-reports.webp',
-      // '/images/projects/timemate-mobile.webp'
     ],
     status: 'En cours'
   },
@@ -130,6 +121,20 @@ export const projects: Project[] = [
       '/images/projects/site-plombier-factures.webp',
       '/images/projects/site-plombier-factures.webp',
       '/images/projects/site-plombier-interventions.webp'
+    ],
+    status: 'Terminé'
+  },
+  {
+    name: 'Environnement Manager',
+    slug: 'app-env-manager',
+    description: 'App pour gestion des environnements de développement pour les différents projets. Sauvegarde des variables, et des fichiers readme.',
+    stack: ['React', 'Firebase', 'système de relances automatiques'],
+    linkDemo: 'https://plombier-new-one.vercel.app/',
+    linkCode: 'https://github.com/JavaChrist/Plombier-new',
+    image: '🔧',
+    images: [
+      '/images/projects/env-manager-login.webp',
+      '/images/projects/env-manager-projets.webp'
     ],
     status: 'Terminé'
   },
