@@ -123,12 +123,13 @@ export const projects: Project[] = [
     linkCode: 'https://github.com/JavaChrist/Plombier-new',
     image: '🔧',
     images: [
+      '/images/projects/site-plombier-accueil.webp',
+      '/images/projects/site-plombier-services.webp',
+      '/images/projects/site-plombier-entreprise.webp',
       '/images/projects/site-plombier-articles.webp',
       '/images/projects/site-plombier-factures.webp',
-      '/images/projects/site-plombier-entreprise.webp',
       '/images/projects/site-plombier-factures.webp',
-      '/images/projects/site-plombier-interventions.webp',
-      '/images/projects/site-plombier-services.webp'
+      '/images/projects/site-plombier-interventions.webp'
     ],
     status: 'Terminé'
   },
