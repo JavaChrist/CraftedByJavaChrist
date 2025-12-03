@@ -156,5 +156,85 @@ export const projects: Project[] = [
       '/images/projects/sitejavaChrist-login.webp'
     ],
     status: 'Terminé'
+  },
+    {
+    name: 'SuiviChantier',
+    slug: 'suivi-chantier',
+      description: 'Application web et mobile pour le suivi de chantier : gestion des tâches, des événements, des pièces jointes, des commentaires, des documents, des contacts, des entreprises, des clients, des factures, des devis, des commandes, des réceptions, des livraisons, des paiements, des réclamations et des garanties. Intégrant un chat en ligne pour une interaction directe avec les clients pour la validation des commandes.',
+    stack: ['React','GitHub', 'Firebase'],
+      linkDemo: 'https://crafted-by-java-christ.vercel.app/projects',
+    linkCode: 'https://github.com/JavaChrist/MyChantier',
+    image: '💻',
+    images: [
+      '/images/projects/SuiviChantier-1.webp',
+      '/images/projects/SuiviChantier-2.webp',
+      '/images/projects/SuiviChantier-3.webp',
+      '/images/projects/SuiviChantier-4.webp'
+    ],
+    status: 'Terminé'
+  }, 
+  {
+    name: 'KeyBox',
+    slug: 'key-box',
+    description: 'KeyBoxest une application sécurisée pour stocker, organiser et retrouver facilement tous ses mots de passe. Elle combine chiffrement, synchronisation cloud via Firebase et sauvegarde locale automatique vers ton NAS pour garantir une disponibilité totale. L’interface épurée permet d’ajouter, classer et rechercher ses accès en quelques secondes, avec une expérience fiable et simple au quotidien.',
+    stack: ['React', 'GitHub', 'Firebase'],
+    linkDemo: 'https://paaswoord-vault.vercel.app/vault',
+    linkCode: 'https://github.com/JavaChrist/Paaswoord-Vault',
+    image: '💻',
+    images: [
+      '/images/projects/KeyBox-1.webp',
+      '/images/projects/KeyBox-2.webp',
+      '/images/projects/KeyBox-3.webp',
+      '/images/projects/KeyBox-4.webp'
+    ],
+    status: 'Terminé'
+  },
+  {
+    name: 'CardBox',
+    slug: 'card-box',
+    description: 'CardBox est une application moderne pour gérer et centraliser toutes tes cartes de fidélité, garanties, abonnements et documents associés. Elle remplace les portefeuilles encombrés en offrant un espace organisé, sécurisé et accessible partout. Grâce au scan rapide, aux rappels de fin de validité et à une interface claire, CardBox simplifie réellement la gestion du quotidien.',
+    stack: ['React', 'GitHub', 'Firebase'],
+    linkDemo: 'https://vercel.com/javachrist-projects/cardbox',
+    linkCode: 'https://github.com/JavaChrist/CardBox',
+    image: '💻',
+    images: [
+      '/images/projects/CardBox-1.webp',
+      '/images/projects/CardBox-2.webp',
+      '/images/projects/CardBox-3.webp',
+      '/images/projects/CardBox-4.webp'
+    ],
+    status: 'Terminé'
+  },
+  {
+    name: 'MySafeBox',
+    slug: 'my-safe-box',
+    description: 'MySafeBox est un coffre-fort numérique familial sécurisé, conçu pour centraliser les documents importants (identités, fiches de paie, factures, papiers officiels). Chaque membre peut déposer, organiser et consulter ses documents à tout moment — avec un stockage local sur NAS et une interface simple pour garantir confidentialité, accessibilité et tranquillité d\'esprit.',
+    stack: ['React', 'GitHub', 'Firebase'],
+    linkDemo: 'https://www.mysafebox.fr',
+    linkCode: 'https://github.com/JavaChrist/MySafeBox',
+    image: '💻',
+    images: [
+      '/images/projects/MySafeBox-1.webp',
+      '/images/projects/MySafeBox-2.webp',
+      '/images/projects/MySafeBox-3.webp',
+      '/images/projects/MySafeBox-4.webp'
+    ],
+    status: 'Terminé'
+  },
+  {
+    name: 'InShape',
+    slug: 'in-shape',
+    description: 'InShape est une application web & mobile pensée pour centraliser et simplifier la remise en forme : création et suivi d’objectifs, plan d’entraînement, historique des séances, et vue synthétique des progrès.UI claire, données sécurisées, et suivi intuitif pour rendre le fitness accessible au quotidien — idéal pour rester motivé, structuré et sur la bonne voie.',
+    stack: ['React', 'GitHub', 'Firebase'],
+    linkDemo: 'https://in-shape.vercel.app/',
+    linkCode: 'https://github.com/JavaChrist/in-shape',
+    image: '💻',
+    images: [
+      '/images/projects/InShape-1.webp',
+      '/images/projects/InShape-2.webp',
+      '/images/projects/InShape-3.webp',
+      '/images/projects/InShape-4.webp'
+    ],
+    status: 'Terminé'
   }
 ]; 

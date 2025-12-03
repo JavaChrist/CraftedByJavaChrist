@@ -62,11 +62,11 @@ const Home: React.FC = () => {
           className="grid md:grid-cols-3 gap-8 text-center"
         >
           <div className="p-6">
-            <div className="text-4xl font-bold text-gray-900 mb-2">90+</div>
+            <div className="text-4xl font-bold text-gray-900 mb-2">109+</div>
             <div className="text-gray-600">Projets réalisés</div>
           </div>
           <div className="p-6">
-            <div className="text-4xl font-bold text-gray-900 mb-2">5+</div>
+            <div className="text-4xl font-bold text-gray-900 mb-2">6+</div>
             <div className="text-gray-600">Années d'expérience</div>
           </div>
           <div className="p-6">
