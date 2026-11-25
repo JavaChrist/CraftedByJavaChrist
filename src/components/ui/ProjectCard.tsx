@@ -1,134 +1,165 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Project } from '../../data/projects';
-import ImageCarousel from './ImageCarousel';
-import ImageGallery from './ImageGallery';
+import { useState, type KeyboardEvent } from 'react';
+import { ArrowUpRightIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import type { Project, ProjectStatus } from '@/data/projects';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
+
+const statusDot: Record<ProjectStatus, string> = {
+  'Terminé': 'bg-ready',
+  'En ligne': 'bg-ready',
+  'Sur Google Play': 'bg-ready',
+  'Réseau privé': 'bg-quiet',
+  'Bientôt sur les stores': 'bg-building',
+  'En cours': 'bg-building',
+  'En développement': 'bg-building',
+};
+
+export const StatusLine = ({ project }: { project: Project }) => {
+  if (!project.status) return null;
+  return (
+    <span className="inline-flex items-center gap-2 whitespace-nowrap">
+      <span aria-hidden="true" className={cn('size-2 shrink-0 rounded-full', statusDot[project.status])} />
+      {project.status}
+      {project.kind && <span className="text-quiet">· {project.kind}</span>}
+    </span>
+  );
+};
 
 interface ProjectCardProps {
   project: Project;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+const ProjectCard = ({ project }: ProjectCardProps) => {
+  const images = project.images ?? [];
+  const [open, setOpen] = useState(false);
+  const [index, setIndex] = useState(0);
+  const many = images.length > 1;
 
-  const handleImageClick = (index: number = 0) => {
-    setSelectedImageIndex(index);
-    setIsGalleryOpen(true);
+  const go = (step: number) => setIndex((i) => (i + step + images.length) % images.length);
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (!many) return;
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
   };
 
-  return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        whileHover={{ y: -5, scale: 1.02 }}
-        transition={{ duration: 0.3 }}
-        className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-300 group"
-      >
-        {/* Images Carousel ou Icône */}
-        {project.images && project.images.length > 0 ? (
-          <div className="mb-4">
-            <ImageCarousel
-              images={project.images}
-              projectName={project.name}
-              onImageClick={handleImageClick}
-            />
-            {project.status && (
-              <div className="flex justify-end mt-2">
-                <span
-                  className={`px-2 py-1 text-xs font-medium rounded-full ${project.status === 'Terminé'
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-yellow-100 text-yellow-800'
-                    }`}
-                >
-                  {project.status}
-                </span>
-              </div>
-            )}
+  const hasDemo = project.linkDemo && project.linkDemo !== '#';
+  const hasCode = project.linkCode && project.linkCode !== '#';
 
-            {/* Indication de clic */}
-            <div className="text-center mt-2">
-              <span className="text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                🎴 Cliquez pour voir en éventail
+  return (
+    <article className="flex flex-col bg-surface p-6 md:p-8">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-[13px] text-muted-foreground">
+        <StatusLine project={project} />
+        <code className="font-mono text-quiet">{project.stack.slice(0, 2).join(' · ')}</code>
+      </div>
+
+      <h3 className="mt-6 text-2xl font-normal tracking-[-0.03em] text-balance">{project.name}</h3>
+      <p className="mt-2 text-pretty text-muted-foreground">{project.description}</p>
+
+      <div className="mt-auto flex flex-col gap-4 pt-8">
+        {images.length > 0 && (
+          <button
+            type="button"
+            onClick={() => {
+              setIndex(0);
+              setOpen(true);
+            }}
+            aria-label={`Agrandir les captures de ${project.name}`}
+            className="group/img relative block overflow-hidden rounded-md border border-line outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            <img
+              src={images[0]}
+              alt={`Capture de ${project.name}`}
+              loading="lazy"
+              className="aspect-[16/10] w-full object-cover object-top transition-transform duration-300 ease-out group-hover/img:scale-[1.02]"
+            />
+            {many && (
+              <span className="absolute right-3 bottom-3 rounded-md border border-line bg-background/80 px-2 py-1 font-mono text-[12px] text-muted-foreground backdrop-blur-sm">
+                1 / {images.length}
               </span>
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-start justify-between mb-4">
-            <div className="text-4xl mb-2">{project.image}</div>
-            {project.status && (
-              <span
-                className={`px-2 py-1 text-xs font-medium rounded-full ${project.status === 'Terminé'
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-yellow-100 text-yellow-800'
-                  }`}
+            )}
+          </button>
+        )}
+
+        {(hasDemo || project.linkPlay || hasCode) && (
+          <div className="flex flex-wrap gap-2">
+            {hasDemo && (
+              <Button
+                variant="outline"
+                size="lg"
+                render={<a href={project.linkDemo} target="_blank" rel="noopener noreferrer" />}
+                nativeButton={false}
               >
-                {project.status}
-              </span>
+                Voir le site
+                <ArrowUpRightIcon data-icon="inline-end" />
+              </Button>
+            )}
+            {project.linkPlay && (
+              <Button
+                variant="outline"
+                size="lg"
+                render={<a href={project.linkPlay} target="_blank" rel="noopener noreferrer" />}
+                nativeButton={false}
+              >
+                Google Play
+                <ArrowUpRightIcon data-icon="inline-end" />
+              </Button>
+            )}
+            {hasCode && (
+              <Button
+                variant="ghost"
+                size="lg"
+                render={<a href={project.linkCode} target="_blank" rel="noopener noreferrer" />}
+                nativeButton={false}
+              >
+                Code source
+              </Button>
             )}
           </div>
         )}
+      </div>
 
-        {/* Titre */}
-        <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-          {project.name}
-        </h3>
-
-        {/* Description */}
-        <p className="text-gray-600 text-sm leading-relaxed mb-4">
-          {project.description}
-        </p>
-
-        {/* Stack technique */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.stack.map((tech, index) => (
-            <span
-              key={index}
-              className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md font-medium"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* Actions */}
-        <div className="flex gap-3">
-          {project.linkDemo && project.linkDemo !== '#' && (
-            <a
-              href={project.linkDemo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 bg-black text-white text-center py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
-            >
-              Voir le projet
-            </a>
-          )}
-          {project.linkCode && project.linkCode !== '#' && (
-            <a
-              href={project.linkCode}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 border border-gray-300 text-gray-700 text-center py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors"
-            >
-              Code source
-            </a>
-          )}
-        </div>
-      </motion.div>
-
-      {/* Galerie en éventail */}
-      {project.images && project.images.length > 0 && (
-        <ImageGallery
-          images={project.images}
-          projectName={project.name}
-          isOpen={isGalleryOpen}
-          onClose={() => setIsGalleryOpen(false)}
-          initialIndex={selectedImageIndex}
-        />
+      {images.length > 0 && (
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent
+            onKeyDown={onKeyDown}
+            className="gap-0 overflow-hidden rounded-lg bg-card p-0 ring-line sm:max-w-5xl"
+          >
+            <img
+              src={images[index]}
+              alt={`Capture ${index + 1} de ${project.name}`}
+              className="max-h-[75vh] w-full bg-background object-contain"
+            />
+            <div className="flex items-center justify-between gap-4 border-t border-line px-4 py-3 md:px-6">
+              <div className="flex min-w-0 flex-col">
+                <DialogTitle className="truncate text-[15px] font-medium">{project.name}</DialogTitle>
+                <DialogDescription className="font-mono text-[13px] text-quiet">
+                  {index + 1} / {images.length}
+                </DialogDescription>
+              </div>
+              {many && (
+                <div className="flex gap-2">
+                  <Button variant="outline" size="icon-lg" onClick={() => go(-1)}>
+                    <ChevronLeftIcon />
+                    <span className="sr-only">Capture précédente</span>
+                  </Button>
+                  <Button variant="outline" size="icon-lg" onClick={() => go(1)}>
+                    <ChevronRightIcon />
+                    <span className="sr-only">Capture suivante</span>
+                  </Button>
+                </div>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
       )}
-    </>
+    </article>
   );
 };
 
-export default ProjectCard; 
+export default ProjectCard;

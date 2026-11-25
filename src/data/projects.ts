@@ -5,12 +5,160 @@ export interface Project {
   stack: string[];
   linkDemo?: string;
   linkCode?: string;
-  image?: string;
   images?: string[];
-  status?: 'Terminé' | 'En cours';
+  /** Lien Google Play, affiché en bouton */
+  linkPlay?: string;
+  status?: ProjectStatus;
+  /** Projet réalisé pour un client ou app perso */
+  kind?: 'Client' | 'Perso';
 }
 
+export type ProjectStatus =
+  | 'Terminé'
+  | 'En cours'
+  | 'En ligne'
+  | 'Sur Google Play'
+  | 'Bientôt sur les stores'
+  | 'En développement'
+  | 'Réseau privé';
+
+/** Statuts rangés dans « Projets en cours » */
+export const ongoingStatuses: ProjectStatus[] = ['En cours', 'En développement'];
+
 export const projects: Project[] = [
+  {
+    name: 'Qualidoc V3',
+    slug: 'qualidoc',
+    description: 'Génère les procédures techniques de qualification au gabarit du client, assistée par l’IA Mistral.',
+    stack: ['Vite', 'React', 'Electron', 'Mistral'],
+    images: ['/images/projects/qualidoc.webp'],
+    status: 'Réseau privé',
+    kind: 'Client'
+  },
+  {
+    name: 'RideCloud',
+    slug: 'ridecloud',
+    description: 'Le carnet d’entretien intelligent de tous vos véhicules (voiture, moto, scooter, utilitaire), sur le web et le mobile.',
+    stack: ['Next.js'],
+    linkDemo: 'https://ridecloud.app',
+    linkPlay: 'https://play.google.com/store/apps/details?id=fr.javachrist.ridecloud',
+    images: ['/images/projects/ridecloud.webp'],
+    status: 'Sur Google Play',
+    kind: 'Perso'
+  },
+  {
+    name: 'RideCloud Moto',
+    slug: 'ridecloud-moto',
+    description: 'Version de RideCloud pour les concessionnaires moto, à leurs couleurs : plan d’entretien, rappels et fiches techniques.',
+    stack: ['Next.js'],
+    linkDemo: 'https://moto.ridecloud.app',
+    images: ['/images/projects/ridecloud-moto.webp'],
+    status: 'En ligne',
+    kind: 'Client'
+  },
+  {
+    name: 'Sous pli',
+    slug: 'souspli',
+    description: 'Organise le tirage au sort de Noël : Secret Santa en famille, en association ou entre collègues.',
+    stack: ['Next.js'],
+    linkDemo: 'https://souspli.fr',
+    linkPlay: 'https://play.google.com/store/apps/details?id=fr.javachrist.souspli',
+    images: ['/images/projects/souspli.webp'],
+    status: 'Sur Google Play',
+    kind: 'Perso'
+  },
+  {
+    name: 'Motissimo',
+    slug: 'motissimo',
+    description: 'Retrouvez les mots cachés, progressez par niveaux et relevez le défi du jour !',
+    stack: ['Next.js', 'React', 'TypeScript'],
+    linkDemo: 'https://motissimo.vercel.app',
+    linkPlay: 'https://play.google.com/store/apps/details?id=fr.javachrist.motissimo',
+    images: ['/images/projects/motissimo.webp'],
+    status: 'Sur Google Play',
+    kind: 'Perso'
+  },
+  {
+    name: 'AntiGaspi',
+    slug: 'antigaspi',
+    description: 'Suit tes produits pour réduire le gaspillage alimentaire, avec des recettes IA selon ce qui périme.',
+    stack: ['Vite', 'React'],
+    linkDemo: 'https://antigaspi.javachrist.fr',
+    images: ['/images/projects/antigaspi.webp'],
+    status: 'Bientôt sur les stores',
+    kind: 'Perso'
+  },
+  {
+    name: 'Julie G Studio',
+    slug: 'julie-g',
+    description: 'Site de Julie Grohens, photographe d’émotions en Normandie : portfolios, tarifs, accès client et admin.',
+    stack: ['Next.js'],
+    linkDemo: 'https://jg-photographie.fr',
+    images: ['/images/projects/julie-g.webp'],
+    status: 'En ligne',
+    kind: 'Client'
+  },
+  {
+    name: 'Dourya',
+    slug: 'dourya',
+    description: 'Boutique en ligne d’illustrations originales : prints, stickers et porte-clés.',
+    stack: ['Next.js'],
+    linkDemo: 'https://dourya.fr',
+    images: ['/images/projects/dourya.webp'],
+    status: 'En ligne',
+    kind: 'Client'
+  },
+  {
+    name: 'Cubelyo',
+    slug: 'cubelyo',
+    description: 'Casse-tête 3D : tourne le cube, trouve le passage et libère les flèches, sur 100 niveaux.',
+    stack: ['Next.js'],
+    linkDemo: 'https://cubelyo.vercel.app',
+    linkPlay: 'https://play.google.com/store/apps/details?id=fr.javachrist.cubelyo',
+    images: ['/images/projects/cubelyo.webp', '/images/projects/cubelyo-boutique.webp'],
+    status: 'Sur Google Play',
+    kind: 'Perso'
+  },
+  {
+    name: 'Parenty',
+    slug: 'parenty',
+    description: 'Organisation parentale partagée, simple et factuelle, installable sur le téléphone.',
+    stack: ['Vite', 'React'],
+    linkDemo: 'https://parenty.vercel.app',
+    images: ['/images/projects/parenty.webp', '/images/projects/parenty-documents.webp'],
+    status: 'Bientôt sur les stores',
+    kind: 'Perso'
+  },
+  {
+    name: 'Tai-Chi Coach',
+    slug: 'taichi',
+    description: 'Un compagnon d’apprentissage du Tai Chi, calme et progressif, qui adapte la pratique à ta forme du jour.',
+    stack: ['Next.js'],
+    images: ['/images/projects/taichi.webp'],
+    status: 'En développement',
+    kind: 'Perso'
+  },
+  {
+    name: 'English AI',
+    slug: 'english-ai',
+    description: 'Apprendre l’anglais par de vraies conversations avec un coach IA, sans exercices de grammaire.',
+    stack: ['Next.js'],
+    linkDemo: 'https://english-ai-pi.vercel.app',
+    images: ['/images/projects/english-ai.webp'],
+    status: 'Bientôt sur les stores',
+    kind: 'Perso'
+  },
+  {
+    name: 'GéoFR',
+    slug: 'geofr',
+    description: 'Jeu éducatif pour découvrir la France, ses régions, son histoire et ses traditions, avec des quiz et des cartes, en solo ou en famille. Une gamme pour les pays d’Europe est en cours.',
+    stack: ['Next.js'],
+    linkDemo: 'https://geofr.appsgeo.com',
+    linkPlay: 'https://play.google.com/store/apps/details?id=fr.javachrist.geofr',
+    images: ['/images/projects/geofr.webp'],
+    status: 'Sur Google Play',
+    kind: 'Perso'
+  },
   {
     name: 'CodeCraft Studio',
     slug: 'code-craft-studio',
@@ -18,7 +166,6 @@ export const projects: Project[] = [
     stack: ['React', 'CodeMirror', 'LocalStorage', 'GitHub API'],
     linkDemo: 'https://code-craft-studio-omega.vercel.app/',
     linkCode: 'https://github.com/javachrist/code-craft-studio',
-    image: '💻',
     images: [
       '/images/projects/codecraft-studio-previsualisation.webp',
       '/images/projects/codecraft-studio.webp',
@@ -29,11 +176,10 @@ export const projects: Project[] = [
   {
     name: 'SmartBoard',
     slug: 'smartboard',
-    description: 'Dashboard d\'apps et raccourcis pour poste de travail (PC & cloud sync)',
+    description: 'Dashboard d’apps et raccourcis pour poste de travail (PC & cloud sync)',
     stack: ['Flutter', 'Firebase', 'Auth', 'Cloud Firestore'],
     linkDemo: 'https://smartboard-app.vercel.app',
     linkCode: 'https://github.com/javachrist/smartboard',
-    image: '📱',
     images: [
       '/images/projects/smartboard-1.svg',
       '/images/projects/smartboard-2.svg',
@@ -43,11 +189,10 @@ export const projects: Project[] = [
   {
     name: 'Sync-app',
     slug: 'sync-pro',
-    description: 'App Next.js pro utilisée chez EDF, stockage fichiers via NAS',
+    description: 'App Next.js pro pour un client industriel, stockage fichiers via NAS',
     stack: ['Next.js', 'Firebase Auth', 'API interne sécurisée'],
     linkDemo: 'https://sync-pro.javachrist.eu/login',
     linkCode: 'https://github.com/javachrist/sync-app',
-    image: '⚡',
     images: [
       '/images/projects/sync-pro.webp',
       '/images/projects/sync-pro-compte.webp',
@@ -64,7 +209,6 @@ export const projects: Project[] = [
     stack: ['React', 'TailwindCSS', 'TypeScript', 'Firebase', 'emailJS', 'Fullcalendar'],
     linkDemo: 'https://webmail.javachrist.eu/login',
     linkCode: 'https://github.com/javachrist/webmail',
-    image: '📧',
     images: [
       '/images/projects/webmail-clair.webp',
       '/images/projects/webmail-calendrier.webp',
@@ -79,7 +223,6 @@ export const projects: Project[] = [
     stack: ['React', 'Firebase', 'export CSV'],
     linkDemo: 'https://timemate-app.vercel.app',
     linkCode: 'https://github.com/javachrist/timemate',
-    image: '⏱️',
     images: [
       '/images/projects/timemate-1.svg',
     ],
@@ -92,7 +235,6 @@ export const projects: Project[] = [
     stack: ['React', 'Firebase', 'Stripe', 'React Hook Form'],
     linkDemo: 'https://facturation.javachrist.eu/login',
     linkCode: 'https://github.com/JavaChrist/saas-facturation-v1',
-    image: '💰',
     images: [
       '/images/projects/facturation-tableau-de-bord.webp',
       '/images/projects/facturation-tableau-de-bord-2.webp',
@@ -112,7 +254,6 @@ export const projects: Project[] = [
     stack: ['React', 'Firebase', 'système de relances automatiques'],
     linkDemo: 'https://plombier-new-one.vercel.app/',
     linkCode: 'https://github.com/JavaChrist/Plombier-new',
-    image: '🔧',
     images: [
       '/images/projects/site-plombier-accueil.webp',
       '/images/projects/site-plombier-services.webp',
@@ -131,7 +272,6 @@ export const projects: Project[] = [
     stack: ['React', 'Firebase', 'système de relances automatiques'],
     linkDemo: 'https://plombier-new-one.vercel.app/',
     linkCode: 'https://github.com/JavaChrist/Plombier-new',
-    image: '🔧',
     images: [
       '/images/projects/env-manager-login.webp',
       '/images/projects/env-manager-projets.webp'
@@ -146,7 +286,6 @@ export const projects: Project[] = [
     stack: ['HTML', 'CSS', 'JavaScript', 'EmailJS', 'Firebase'],
     linkDemo: 'https://www.javachrist.fr/',
     linkCode: 'https://github.com/JavaChrist/New-JavaChrist',
-    image: '🔧',
     images: [
       '/images/projects/siteJavaChrist.webp',
       '/images/projects/sitejavaChrist-blog.webp',
@@ -164,7 +303,6 @@ export const projects: Project[] = [
     stack: ['React','GitHub', 'Firebase'],
       linkDemo: 'https://crafted-by-java-christ.vercel.app/projects',
     linkCode: 'https://github.com/JavaChrist/MyChantier',
-    image: '💻',
     images: [
       '/images/projects/SuiviChantier-1.webp',
       '/images/projects/SuiviChantier-2.webp',
@@ -180,7 +318,6 @@ export const projects: Project[] = [
     stack: ['React', 'GitHub', 'Firebase'],
     linkDemo: 'https://paaswoord-vault.vercel.app/vault',
     linkCode: 'https://github.com/JavaChrist/Paaswoord-Vault',
-    image: '💻',
     images: [
       '/images/projects/KeyBox-1.webp',
       '/images/projects/KeyBox-2.webp',
@@ -196,7 +333,6 @@ export const projects: Project[] = [
     stack: ['React', 'GitHub', 'Firebase'],
     linkDemo: 'https://vercel.com/javachrist-projects/cardbox',
     linkCode: 'https://github.com/JavaChrist/CardBox',
-    image: '💻',
     images: [
       '/images/projects/CardBox-1.webp',
       '/images/projects/CardBox-2.webp',
@@ -208,11 +344,10 @@ export const projects: Project[] = [
   {
     name: 'MySafeBox',
     slug: 'my-safe-box',
-    description: 'MySafeBox est un coffre-fort numérique familial sécurisé, conçu pour centraliser les documents importants (identités, fiches de paie, factures, papiers officiels). Chaque membre peut déposer, organiser et consulter ses documents à tout moment — avec un stockage local sur NAS et une interface simple pour garantir confidentialité, accessibilité et tranquillité d\'esprit.',
+    description: 'MySafeBox est un coffre-fort numérique familial sécurisé, conçu pour centraliser les documents importants (identités, fiches de paie, factures, papiers officiels). Chaque membre peut déposer, organiser et consulter ses documents à tout moment — avec un stockage local sur NAS et une interface simple pour garantir confidentialité, accessibilité et tranquillité d’esprit.',
     stack: ['React', 'GitHub', 'Firebase'],
     linkDemo: 'https://www.mysafebox.fr',
     linkCode: 'https://github.com/JavaChrist/MySafeBox',
-    image: '💻',
     images: [
       '/images/projects/MySafeBox-1.webp',
       '/images/projects/MySafeBox-2.webp',
@@ -228,7 +363,6 @@ export const projects: Project[] = [
     stack: ['React', 'GitHub', 'Firebase'],
     linkDemo: 'https://in-shape.vercel.app/',
     linkCode: 'https://github.com/JavaChrist/in-shape',
-    image: '💻',
     images: [
       '/images/projects/InShape-1.webp',
       '/images/projects/InShape-2.webp',

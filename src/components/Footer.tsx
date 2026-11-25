@@ -1,90 +1,77 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { GithubIcon, LinkedinIcon } from '@/components/icons/brand';
+import { Button } from '@/components/ui/button';
+import Logo from '@/components/Logo';
 
-const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
+const links = [
+  { name: 'Projets', to: '/projects' },
+  { name: 'À propos', to: '/about' },
+  { name: 'Contact', to: '/contact' },
+];
+
+const Footer = () => {
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-white py-12 border-t border-gray-800">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Brand */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">CraftedByJavaChrist</h3>
-            <p className="text-gray-400 leading-relaxed text-sm">
-              Développeur Full Stack freelance spécialisé dans la création
-              d'applications web et mobiles modernes.
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-semibold mb-4">Navigation</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Accueil
-                </Link>
-              </li>
-              <li>
-                <Link to="/projects" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Projets
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  À propos
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact#contactez-moi" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact & Social */}
-          <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
-            <div className="space-y-2 text-gray-400 text-sm mb-4">
-              <p>📧 contact@javachrist.dev</p>
-              <p>📍 France (Remote)</p>
-            </div>
-
-            {/* Social Links */}
-            <div className="flex space-x-3">
-              <a
-                href="https://github.com/javachrist"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
-                aria-label="GitHub"
-              >
-                <span className="text-xs font-bold">Gh</span>
-              </a>
-              <a
-                href="https://linkedin.com/in/javachrist"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
-                aria-label="LinkedIn"
-              >
-                <span className="text-xs font-bold">Li</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Copyright */}
-        <div className="border-t border-gray-800 mt-8 pt-6 text-center">
-          <p className="text-gray-400 text-sm">
-            © {currentYear} CraftedByJavaChrist. Tous droits réservés.
+    <footer className="border-t border-line">
+      <div className="mx-auto grid max-w-[1440px] gap-10 px-6 py-12 md:grid-cols-[1fr_auto_auto] md:items-start md:gap-16 md:px-12">
+        <div className="flex flex-col gap-2">
+          <Link to="/" className="-mx-2 -my-2.5 inline-flex h-11 items-center self-start rounded-md px-2 text-[15px] font-semibold tracking-[-0.02em]">
+            <Logo />
+          </Link>
+          <p className="max-w-[36ch] text-pretty text-sm text-muted-foreground">
+            Développeur freelance, applications web et mobiles, de l’idée à la mise en ligne.
           </p>
         </div>
+
+        <nav aria-label="Pied de page" className="flex flex-col">
+          {links.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className="inline-flex h-11 items-center text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground md:h-8"
+            >
+              {link.name}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex flex-col gap-3">
+          <a
+            href="mailto:contact@javachrist.fr"
+            className="inline-flex h-11 items-center font-mono text-[13px] text-muted-foreground transition-colors duration-150 hover:text-foreground md:h-8"
+          >
+            contact@javachrist.fr
+          </a>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="icon-lg"
+              render={<a href="https://github.com/javachrist" target="_blank" rel="noopener noreferrer" />}
+              nativeButton={false}
+            >
+              <GithubIcon />
+              <span className="sr-only">GitHub</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="icon-lg"
+              render={<a href="https://linkedin.com/in/javachrist" target="_blank" rel="noopener noreferrer" />}
+              nativeButton={false}
+            >
+              <LinkedinIcon />
+              <span className="sr-only">LinkedIn</span>
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-line">
+        <p className="mx-auto max-w-[1440px] px-6 py-6 font-mono text-[13px] text-quiet md:px-12">
+          © {year} JavaChrist
+        </p>
       </div>
     </footer>
   );
 };
 
-export default Footer; 
+export default Footer;

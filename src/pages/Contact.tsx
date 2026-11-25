@@ -1,28 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
+import {
+  CircleAlertIcon,
+  CircleCheckIcon,
+  LoaderCircleIcon,
+  MailIcon,
+  MapPinIcon,
+} from 'lucide-react';
+import { GithubIcon, LinkedinIcon } from '@/components/icons/brand';
+import { Button } from '@/components/ui/button';
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 
-const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
+const contactInfo = [
+  { icon: MailIcon, title: 'Email', value: 'contact@javachrist.fr', link: 'mailto:contact@javachrist.fr' },
+  { icon: LinkedinIcon, title: 'LinkedIn', value: 'JavaChrist', link: 'https://linkedin.com/in/javachrist' },
+  { icon: GithubIcon, title: 'GitHub', value: 'javachrist', link: 'https://github.com/javachrist' },
+  { icon: MapPinIcon, title: 'Localisation', value: '5 rue Maurice Fonvieille, 31120 Portet-sur-Garonne', link: null },
+];
+
+const faq = [
+  {
+    q: 'Quels types de projets acceptez-vous ?',
+    a: 'Applications web (React, Next.js), applications mobiles, solutions SaaS, sites e-commerce et intégrations d’API.',
+  },
+  {
+    q: 'Quel est votre délai de réponse ?',
+    a: 'Je réponds en moins de 24 h. Pour une urgence, précisez-le dans votre message.',
+  },
+  {
+    q: 'Travaillez-vous à distance ?',
+    a: 'Oui, je travaille surtout à distance, avec des clients partout en France et à l’international.',
+  },
+  {
+    q: 'Proposez-vous de la maintenance ?',
+    a: 'Oui, je propose des contrats de maintenance et d’évolution pour que vos applications durent.',
+  },
+];
+
+const emptyForm = { name: '', email: '', subject: '', message: '' };
+
+const Contact = () => {
+  const [formData, setFormData] = useState(emptyForm);
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({
+    type: null,
     message: '',
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{
-    type: 'success' | 'error' | null;
-    message: string;
-  }>({ type: null, message: '' });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setSubmitStatus({ type: null, message: '' });
@@ -30,329 +61,162 @@ const Contact: React.FC = () => {
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
       const result = await response.json();
 
       if (response.ok) {
         setSubmitStatus({
           type: 'success',
-          message: 'Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.',
+          message: 'Message envoyé. Je vous réponds en moins de 24 h.',
         });
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        setFormData(emptyForm);
       } else {
         setSubmitStatus({
           type: 'error',
-          message: result.error || 'Une erreur est survenue lors de l\'envoi du message.',
+          message: result.error || 'Une erreur est survenue lors de l’envoi du message.',
         });
       }
-    } catch (error) {
-      setSubmitStatus({
-        type: 'error',
-        message: 'Erreur de connexion. Veuillez réessayer plus tard.',
-      });
+    } catch {
+      setSubmitStatus({ type: 'error', message: 'Erreur de connexion. Réessayez dans un instant.' });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const contactInfo = [
-    {
-      icon: '📧',
-      title: 'Email',
-      value: 'contact@javachrist.fr',
-      link: 'mailto:contact@javachrist.fr',
-    },
-    {
-      icon: '💼',
-      title: 'LinkedIn',
-      value: 'JavaChrist',
-      link: 'https://linkedin.com/in/javachrist',
-    },
-    {
-      icon: '🐙',
-      title: 'GitHub',
-      value: 'javachrist',
-      link: 'https://github.com/javachrist',
-    },
-    {
-      icon: '📍',
-      title: 'Localisation',
-      value: '5 rue Maurice Fonvieille, 31120 Portet sur Garonne',
-      link: null,
-    },
-  ];
-
-  // Gérer le scroll automatique vers l'ancre
+  // Défilement vers l'ancre (#contactez-moi) à l'arrivée sur la page
   useEffect(() => {
     const hash = window.location.hash;
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }, 100);
-      }
-    }
+    if (!hash) return;
+    const element = document.querySelector(hash);
+    if (element) setTimeout(() => element.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <section id="contact-form" className="max-w-6xl mx-auto px-6 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h1 id="contactez-moi" className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Contactez-moi
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Vous avez un projet en tête ? Une question ? N'hésitez pas à me contacter.
-            Je serais ravi de discuter de vos besoins et de voir comment je peux vous aider.
-          </p>
-        </motion.div>
-
-        <div className="grid lg:grid-cols-2 gap-16">
-          {/* Informations de contact */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">
-              Restons en contact
-            </h2>
-
-            <div className="space-y-6 mb-12">
-              {contactInfo.map((info, index) => (
-                <motion.div
-                  key={info.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 * index }}
-                  className="flex items-center space-x-4"
-                >
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <span className="text-xl">{info.icon}</span>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">{info.title}</h3>
-                    {info.link ? (
-                      <a
-                        href={info.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 transition-colors"
-                      >
-                        {info.value}
-                      </a>
-                    ) : (
-                      <p className="text-gray-600">{info.value}</p>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="bg-gray-50 rounded-lg p-6"
+    <>
+      <section className="mx-auto max-w-[1440px] scroll-mt-16 px-6 pt-20 pb-20 md:px-12 md:pt-28 md:pb-28" id="contact-form">
+        <div className="flex items-end justify-between gap-12">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[13px] text-muted-foreground">
+              <span aria-hidden="true" className="size-2 rounded-full bg-ready" />
+              Disponible pour un nouveau projet
+            </p>
+            <h1
+              id="contactez-moi"
+              className="mt-8 max-w-[16ch] scroll-mt-24 text-[clamp(2.5rem,5vw,4.5rem)] leading-[.98] font-normal tracking-[-0.05em] text-balance"
             >
-              <h3 className="font-semibold text-gray-900 mb-4">
-                Disponibilité
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Je suis actuellement disponible pour de nouveaux projets.
-                Temps de réponse habituel : 24-48h.
-              </p>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-green-700 font-medium">Disponible</span>
-              </div>
-            </motion.div>
-          </motion.div>
+              <span className="sm:whitespace-nowrap">Un projet en tête&nbsp;?</span>{' '}
+              <span className="text-muted-foreground">Parlons-en.</span>
+            </h1>
+            <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-pretty text-muted-foreground">
+              Décrivez-moi votre idée en quelques lignes, je vous réponds en moins de 24&nbsp;h.
+            </p>
+          </div>
+          <img
+            src="/images/avatar-debout.webp"
+            alt="Avatar 3D de Christian, alias JavaChrist, debout en veste bleue"
+            width={480}
+            height={1193}
+            className="hidden h-[340px] w-auto shrink-0 md:block"
+          />
+        </div>
 
-          {/* Formulaire de contact */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            {/* Messages de statut */}
-            {submitStatus.type && (
-              <div className={`mb-6 p-4 rounded-lg ${submitStatus.type === 'success'
-                ? 'bg-green-50 border border-green-200 text-green-800'
-                : 'bg-red-50 border border-red-200 text-red-800'
-                }`}>
-                <div className="flex items-center">
-                  <span className="mr-2">
-                    {submitStatus.type === 'success' ? '✅' : '❌'}
+        <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+          <ul className="flex flex-col self-start border-t border-line">
+            {contactInfo.map(({ icon: Icon, title, value, link }) => {
+              const content = (
+                <>
+                  <Icon aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-muted-foreground" />
+                  <span className="flex min-w-0 flex-col gap-1">
+                    <span className="text-[13px] text-quiet">{title}</span>
+                    <span className="text-pretty break-words">{value}</span>
                   </span>
+                </>
+              );
+              return (
+                <li key={title} className="border-b border-line">
+                  {link ? (
+                    <a
+                      href={link}
+                      target={link.startsWith('http') ? '_blank' : undefined}
+                      rel={link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      className="-mx-3 flex gap-4 rounded-md px-3 py-5 transition-colors duration-150 hover:bg-accent"
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <div className="flex gap-4 py-5">{content}</div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+
+          <form onSubmit={handleSubmit} className="rounded-lg border border-line bg-surface p-6 md:p-8">
+            <FieldGroup>
+              {submitStatus.type && (
+                <p
+                  role="status"
+                  className={cn(
+                    'flex items-start gap-3 rounded-md border px-4 py-3 text-sm',
+                    submitStatus.type === 'success'
+                      ? 'border-ready/40 text-ready'
+                      : 'border-destructive/40 text-destructive'
+                  )}
+                >
+                  {submitStatus.type === 'success' ? (
+                    <CircleCheckIcon aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
+                  ) : (
+                    <CircleAlertIcon aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
+                  )}
                   {submitStatus.message}
-                </div>
+                </p>
+              )}
+              <div className="grid gap-6 md:grid-cols-2">
+                <Field>
+                  <FieldLabel htmlFor="name">Nom complet</FieldLabel>
+                  <Input id="name" name="name" autoComplete="name" required value={formData.name} onChange={handleChange} disabled={isLoading} placeholder="Votre nom" />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="email">Email</FieldLabel>
+                  <Input id="email" name="email" type="email" autoComplete="email" required value={formData.email} onChange={handleChange} disabled={isLoading} placeholder="vous@exemple.fr" />
+                </Field>
               </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Nom complet *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    disabled={isLoading}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    placeholder="Votre nom"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    disabled={isLoading}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
-                    placeholder="votre@email.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                  Sujet *
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  disabled={isLoading}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
-                  placeholder="Sujet de votre message"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  disabled={isLoading}
-                  rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none disabled:bg-gray-100 disabled:cursor-not-allowed"
-                  placeholder="Décrivez votre projet ou votre demande..."
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-black text-white py-3 px-6 rounded-lg hover:bg-gray-800 transition-colors font-medium disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center"
-              >
-                {isLoading ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Envoi en cours...
-                  </>
-                ) : (
-                  'Envoyer le message'
-                )}
-              </button>
-            </form>
-          </motion.div>
+              <Field>
+                <FieldLabel htmlFor="subject">Sujet</FieldLabel>
+                <Input id="subject" name="subject" required value={formData.subject} onChange={handleChange} disabled={isLoading} placeholder="Site vitrine, app mobile, SaaS…" />
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="message">Message</FieldLabel>
+                <Textarea id="message" name="message" required rows={6} value={formData.message} onChange={handleChange} disabled={isLoading} placeholder="Décrivez votre projet ou votre demande…" />
+              </Field>
+              <Button type="submit" size="lg" className="h-12 w-full md:w-auto md:self-start md:px-6" disabled={isLoading}>
+                {isLoading && <LoaderCircleIcon data-icon="inline-start" className="animate-spin" />}
+                {isLoading ? 'Envoi en cours…' : 'Envoyer le message'}
+              </Button>
+            </FieldGroup>
+          </form>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-6xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              Questions fréquentes
-            </h2>
-            <div className="grid md:grid-cols-2 gap-8 text-left">
-              <div className="bg-white rounded-lg p-6 border">
-                <h3 className="font-semibold text-gray-900 mb-3">
-                  Quels types de projets acceptez-vous ?
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Applications web (React/Next.js), applications mobiles (Flutter),
-                  solutions SaaS, sites e-commerce, et intégrations API.
-                </p>
+      <section className="border-t border-line">
+        <div className="mx-auto grid max-w-[1440px] gap-10 px-6 py-20 md:px-12 md:py-28 lg:grid-cols-[1fr_2fr] lg:gap-20">
+          <h2 className="max-w-[16ch] text-4xl leading-[1.05] font-normal tracking-[-0.04em] text-balance">
+            Ce qu’on me demande avant de commencer
+          </h2>
+          <dl className="flex flex-col border-t border-line">
+            {faq.map((item) => (
+              <div key={item.q} className="grid gap-2 border-b border-line py-6 md:grid-cols-[1fr_1.2fr] md:gap-8">
+                <dt className="text-lg tracking-[-0.01em] text-balance">{item.q}</dt>
+                <dd className="text-pretty text-muted-foreground">{item.a}</dd>
               </div>
-              <div className="bg-white rounded-lg p-6 border">
-                <h3 className="font-semibold text-gray-900 mb-3">
-                  Quel est votre délai de réponse ?
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Je réponds généralement dans les 24-48h. Pour les urgences,
-                  n'hésitez pas à le mentionner dans votre message.
-                </p>
-              </div>
-              <div className="bg-white rounded-lg p-6 border">
-                <h3 className="font-semibold text-gray-900 mb-3">
-                  Travaillez-vous en remote ?
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Oui, je travaille principalement en remote avec des clients
-                  partout en France et à l'international.
-                </p>
-              </div>
-              <div className="bg-white rounded-lg p-6 border">
-                <h3 className="font-semibold text-gray-900 mb-3">
-                  Proposez-vous de la maintenance ?
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Oui, je propose des contrats de maintenance et d'évolution
-                  pour assurer la pérennité de vos applications.
-                </p>
-              </div>
-            </div>
-          </motion.div>
+            ))}
+          </dl>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 
-export default Contact; 
+export default Contact;
