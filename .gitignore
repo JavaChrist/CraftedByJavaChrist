@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# fichiers de travail locaux
+/design-pro/
+/public/Nouveau logo/
+/.claude/
