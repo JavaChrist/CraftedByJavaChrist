@@ -1,131 +1,109 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { ArrowRightIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import ProjectCard from '@/components/ui/ProjectCard';
+import CtaSection from '@/components/CtaSection';
+import { projects } from '@/data/projects';
+import { cn } from '@/lib/utils';
 
-const Home: React.FC = () => {
+const featuredSlugs = ['julie-g', 'dourya', 'ridecloud-moto', 'sync-pro', 'saas-facturation', 'app-plombier'];
+const featured = featuredSlugs
+  .map((slug) => projects.find((p) => p.slug === slug))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+const proofs = [
+  { label: '2019 → 2026', value: '145 projets livrés' },
+  { label: 'stores', value: 'Apps sur Google Play' },
+  { label: 'plateformes', value: 'Web et mobile' },
+  { label: 'localisation', value: 'France, à distance' },
+];
+
+const Availability = () => (
+  <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[13px] text-muted-foreground">
+    <span aria-hidden="true" className="size-2 rounded-full bg-ready" />
+    Disponible pour un nouveau projet
+  </p>
+);
+
+const HeroActions = () => (
+  <div className="flex flex-wrap gap-3">
+    <Button size="lg" className="h-12 px-6" render={<Link to="/contact" />} nativeButton={false}>
+      Démarrer un projet
+      <ArrowRightIcon data-icon="inline-end" />
+    </Button>
+    <Button variant="outline" size="lg" className="h-12 px-6" render={<Link to="/projects" />} nativeButton={false}>
+      Voir les projets
+    </Button>
+  </div>
+);
+
+const intro =
+  'Développeur freelance, j’ai réalisé 145 projets depuis 2019 avec React, Next.js et Firebase, pour des clients comme pour mes propres apps.';
+
+const enter = 'animate-in fade-in slide-in-from-bottom-2 fill-mode-both duration-500 ease-out motion-reduce:animate-none';
+
+const Hero = () => (
+  <>
+    <div className={enter}>
+      <Availability />
+    </div>
+    <h1 className={cn(enter, 'mt-8 delay-75 max-w-[18ch] text-[clamp(2.75rem,6vw,5.5rem)] leading-[.95] font-normal tracking-[-0.055em] text-balance')}>
+      Je conçois vos applications web et mobiles, de l’idée à la mise en ligne.
+    </h1>
+    <div className={cn(enter, 'mt-10 delay-150 grid gap-8 md:grid-cols-[1fr_auto] md:items-end')}>
+      <p className="max-w-[52ch] text-lg leading-relaxed text-pretty text-muted-foreground">{intro}</p>
+      <HeroActions />
+    </div>
+  </>
+);
+
+const Home = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-      {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
-        <div className="text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
-              Développeur
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                Full Stack
-              </span>
-            </h1>
-          </motion.div>
+    <>
+      <section className="mx-auto max-w-[1440px] px-6 pt-20 pb-20 md:px-12 md:pt-32 md:pb-28">
+        <Hero />
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed"
-          >
-            Développeur web & mobile freelance spécialisé dans la création d'applications
-            modernes et performantes. Expert React, Next.js, Flutter et Firebase.
-          </motion.p>
+        <ul className="mt-20 grid grid-cols-2 border-y border-line text-sm md:grid-cols-4">
+          {proofs.map((proof, i) => (
+            <li
+              key={proof.label}
+              className={cn(
+                'flex flex-col gap-1 border-line p-6',
+                i === 0 && 'pl-0',
+                i === 1 && 'border-l',
+                i === 2 && 'max-md:border-t max-md:pl-0 md:border-l',
+                i === 3 && 'border-l max-md:border-t'
+              )}
+            >
+              <span className="font-mono text-[13px] text-quiet">{proof.label}</span>
+              <span>{proof.value}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link
-              to="/projects"
-              className="bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium"
-            >
-              Voir mes projets
-            </Link>
-            <Link
-              to="/contact#contactez-moi"
-              className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-            >
-              Me contacter
-            </Link>
-          </motion.div>
+      <section className="border-t border-line">
+        <div className="mx-auto max-w-[1440px] px-6 py-20 md:px-12 md:py-28">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <h2 className="max-w-[22ch] text-4xl leading-[1.05] font-normal tracking-[-0.04em] text-balance md:text-6xl">
+              Des applications qui tournent tous les jours chez mes clients
+            </h2>
+            <Button variant="ghost" size="lg" className="self-start md:self-auto" render={<Link to="/projects" />} nativeButton={false}>
+              Voir les {projects.length}&nbsp;projets
+              <ArrowRightIcon data-icon="inline-end" />
+            </Button>
+          </div>
+          <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
+            {featured.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="grid md:grid-cols-3 gap-8 text-center"
-        >
-          <div className="p-6">
-            <div className="text-4xl font-bold text-gray-900 mb-2">109+</div>
-            <div className="text-gray-600">Projets réalisés</div>
-          </div>
-          <div className="p-6">
-            <div className="text-4xl font-bold text-gray-900 mb-2">6+</div>
-            <div className="text-gray-600">Années d'expérience</div>
-          </div>
-          <div className="p-6">
-            <div className="text-4xl font-bold text-gray-900 mb-2">100%</div>
-            <div className="text-gray-600">Satisfaction client</div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Technologies Section */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-center"
-        >
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Technologies maîtrisées</h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            {[
-              'React', 'Next.js', 'TypeScript', 'Flutter', 'Firebase',
-              'Node.js', 'Tailwind CSS', 'Stripe', 'GitHub API'
-            ].map((tech) => (
-              <span
-                key={tech}
-                className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg font-medium hover:bg-gray-200 transition-colors"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1 }}
-          className="text-center bg-gray-50 rounded-2xl p-12"
-        >
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Prêt à démarrer votre projet ?
-          </h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Discutons de vos besoins et créons ensemble une solution sur mesure
-            qui répond parfaitement à vos attentes.
-          </p>
-          <Link
-            to="/contact#contactez-moi"
-            className="inline-block bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium"
-          >
-            Démarrer un projet
-          </Link>
-        </motion.div>
-      </section>
-    </div>
+      <CtaSection />
+    </>
   );
 };
 
-export default Home; 
+export default Home;
